@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import {computed, ref} from 'vue'
-import FilterComponent from '@/components/FilterComponent.vue'
-import {usePostsStore} from '@/store/posts'
 import {storeToRefs} from 'pinia'
+import {usePostsStore} from '@/store/posts'
 import {searchHighlight, queryFound, authorPath} from '@/helpers'
+import FilterComponent from '@/components/FilterComponent.vue'
 
 const postsStore = usePostsStore()
 const {authors} = storeToRefs(postsStore)

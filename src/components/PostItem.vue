@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import {computed, onBeforeMount, ref, watch} from 'vue'
+import {computed, onBeforeMount, ref} from 'vue'
 import type {Ref} from 'vue'
-import type {IComment, IUser} from '@/api/typing'
 import {useRouter} from 'vue-router'
-import PostUser from '@/components/PostUser.vue'
-import PostComments from '@/components/PostComments.vue'
+import type {IComment} from '@/api/typing'
 import {usePostsStore} from '@/store/posts'
-import BackBtn from '@/components/BackBtn.vue'
 import {postEditPath, postsPath} from '@/helpers'
 import {fetchComments} from '@/api/JsonPlaceholder'
+import BackBtn from '@/components/BackBtn.vue'
+import PostUser from '@/components/PostUser.vue'
+import PostComments from '@/components/PostComments.vue'
+import NotFoundItem from '@/components/NotFoundItem.vue'
 
 interface IProps {
   postId: number;
@@ -24,7 +25,8 @@ const post = computed(() => postById(props.postId))
 const user = computed(() => post.value?.userId ? authorById(post.value.userId) : null)
 const showUser = computed(() => !!user.value)
 const showComments = computed(() => !!comments.value.length)
-
+const postNotFound = computed(() => props.postId && !post.value)
+const postNotFoundTitle = computed(() => `Post #${props.postId} not found`)
 const handleBackBtn = () => router.push(postsPath())
 const handleEdit = () => router.push(postEditPath(props.postId))
 const handleDelete = () => {
@@ -41,20 +43,23 @@ onBeforeMount(async () => {
 
 <template>
   <back-btn title="posts list" @click="handleBackBtn"/>
-  <div class="post">
-    <h4>Post #{{ post?.id }} "{{ post?.title }}"</h4>
-    <p>{{ post?.body }}</p>
-  </div>
-  <PostUser v-if="showUser" :user="user"/>
-  <div class="post__actions actions">
-    <button @click="handleEdit" class="btn btn-warning actions__item">
-      Edit post
-    </button>
-    <button @click="handleDelete" class="btn btn-danger actions__item">
-      Delete post
-    </button>
-  </div>
-  <PostComments v-if="showComments" :comments="comments"/>
+  <NotFoundItem v-if="postNotFound" :title="postNotFoundTitle"/>
+  <template v-else>
+    <div class="post">
+      <h4>Post #{{ post?.id }} "{{ post?.title }}"</h4>
+      <p>{{ post?.body }}</p>
+    </div>
+    <PostUser v-if="showUser" :user="user"/>
+    <div class="post__actions actions">
+      <button @click="handleEdit" class="btn btn-warning actions__item">
+        Edit post
+      </button>
+      <button @click="handleDelete" class="btn btn-danger actions__item">
+        Delete post
+      </button>
+    </div>
+    <PostComments v-if="showComments" :comments="comments"/>
+  </template>
 </template>
 
 <style scoped lang="scss">

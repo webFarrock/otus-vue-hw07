@@ -2,8 +2,9 @@
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
 import {usePostsStore} from '@/store/posts'
-import BackBtn from '@/components/BackBtn.vue'
 import {authorsPath} from '@/helpers'
+import BackBtn from '@/components/BackBtn.vue'
+import NotFoundItem from '@/components/NotFoundItem.vue'
 
 interface IProps {
   authorId: number;
@@ -14,13 +15,15 @@ const props = defineProps<IProps>()
 const {authorById} = usePostsStore()
 
 const author = computed(() => authorById(props.authorId))
+const authorNotFound = computed(() => !author.value)
+const authorNotFoundTitle = computed(() => `Author #${props.authorId} not found`)
 const handleBackBtn = () => router.push(authorsPath())
 </script>
 
 <template>
   <back-btn title="authors list" @click="handleBackBtn"/>
-
-  <div class="author">
+  <NotFoundItem v-if="authorNotFound" :title="authorNotFoundTitle"/>
+  <div v-else class="author">
     <h4>{{ author.name }}</h4>
     <div class="author__info info">
       <div class="info__item">
