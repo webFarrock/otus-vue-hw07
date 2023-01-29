@@ -12,7 +12,7 @@ const links = [
   <ul class="nav">
     <li class="nav-item"
         v-for="{to, title} in links"
-        :key="to"
+        :key="title"
     >
       <router-link :to="to" class="nav-link">{{ title }}</router-link>
     </li>

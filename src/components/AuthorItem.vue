@@ -23,7 +23,7 @@ const handleBackBtn = () => router.push(authorsPath())
 <template>
   <back-btn title="authors list" @click="handleBackBtn"/>
   <NotFoundItem v-if="authorNotFound" :title="authorNotFoundTitle"/>
-  <div v-else class="author">
+  <div v-else-if="author" class="author">
     <h4>{{ author.name }}</h4>
     <div class="author__info info">
       <div class="info__item">

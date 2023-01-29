@@ -28,8 +28,7 @@ const handleFilter = (v: string) => filter.value = v
   <FilterComponent @filter="handleFilter" title="Filter authors"/>
   <ul class="flex sm:flex-col overflow-hidden content-center justify-between posts-nav">
     <li class="pb-2 posts-nav__item"
-        v-for="{id, name, selected} in displayAuthors" :key="id"
-        :class="{selected}"
+        v-for="{id, name} in displayAuthors" :key="id"
     >
       <router-link :to="authorPath(id)" v-html="name"/>
     </li>
