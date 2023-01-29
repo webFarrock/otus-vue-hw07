@@ -1,4 +1,4 @@
-# otus vue hw05
+# otus vue hw07
 
 This template should help get you started developing with Vue 3 in Vite.
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {ref, watch, unref, computed} from 'vue'
 
-interface Props {
+interface IProps {
   title?: string;
   placeholder?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<IProps>(), {
   title: 'Filter items',
   placeholder: 'Input some text',
 })

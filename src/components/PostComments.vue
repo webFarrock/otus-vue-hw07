@@ -2,11 +2,11 @@
 import {computed} from 'vue'
 import type {IComment} from "@/api/typing"
 
-interface Props {
+interface IProps {
   comments: IComment[];
 }
 
-const props = defineProps<Props>()
+const props = defineProps<IProps>()
 const comments = computed(() => props.comments)
 </script>
 

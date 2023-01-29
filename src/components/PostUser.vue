@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {computed} from 'vue'
-import type {IUser} from "@/api/typing"
+import type {IUser} from '@/api/typing'
 
-interface Props {
+interface IProps {
   user: IUser | null;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<IProps>()
 const name = computed(() => props.user?.name)
 const username = computed(() => props.user?.username)
 </script>

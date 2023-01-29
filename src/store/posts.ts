@@ -10,8 +10,6 @@ export const usePostsStore = defineStore('posts', () => {
 
   const postById = (id: number) => {
     const result = posts.value.find((item) => item.id === id)
-    console.log('result id: ', id)
-    console.log('result: ', result)
     return result
   }
 
@@ -23,6 +21,10 @@ export const usePostsStore = defineStore('posts', () => {
   const initPosts = async () => {
     if (posts.value.length) return
     posts.value = await fetchPosts()
+  }
+
+  const deletePost = (id: number) => {
+    posts.value = posts.value.filter(item => item.id !== id)
   }
 
   const initAuthors = async () => {
@@ -37,5 +39,6 @@ export const usePostsStore = defineStore('posts', () => {
     authors,
     init,
     postById,
+    deletePost,
   }
 })

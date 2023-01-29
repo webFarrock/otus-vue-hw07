@@ -3,16 +3,27 @@ import type {RouteRecordRaw} from 'vue-router'
 import PostList from '@/components/PostList.vue'
 import AuthorList from '@/components/AuthorList.vue'
 import PostItem from '@/components/PostItem.vue'
+import MainView from '@/views/MainView.vue'
+
+import {
+  ROUTE_POSTS,
+  ROUTE_POST,
+  ROUTE_AUTHORS,
+} from '@/constants'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'posts',
-    component: PostList,
+    component: MainView,
     children: [
       {
+        path: '/',
+        name: ROUTE_POSTS,
+        component: PostList,
+      },
+      {
         path: '/posts/:postId',
-        name: 'post',
+        name: ROUTE_POST,
         component: PostItem,
         props: (route) => ({postId: Number(route.params.postId), flag: true}),
       }
@@ -26,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
   // },
   {
     path: '/authors',
-    name: 'authors',
+    name: ROUTE_AUTHORS,
     component: AuthorList
   },
   {
