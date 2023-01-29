@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {computed} from 'vue'
 import {useRouter} from 'vue-router'
-import type {IComment, IPost, IUser} from '@/api/typing'
 import PostUser from '@/components/PostUser.vue'
 import PostComments from '@/components/PostComments.vue'
 import {usePostsStore} from '@/store/posts'
@@ -14,21 +13,17 @@ interface IProps {
 
 const router = useRouter()
 const props = defineProps<IProps>()
-const emit = defineEmits(['delete'])
+
 const {postById, deletePost} = usePostsStore()
 
 const post = computed(() => postById(props.postId))
-// const user = computed(() => props.user)
-// const showUser = computed(() => user.value !== null)
-// const comments = computed(() => props.comments)
-// const showComments = computed(() => comments.value.length > 0)
-const handleClick = () => {
-  if (confirm('Delete current post ?')) {
-    deletePost(props.postId)
-    router.push(postsPath())
-  }
-}
 const handleBackBtn = () => router.push(postsPath())
+const handleEdit = () => console.log('todo') // todo
+const handleDelete = () => {
+  if (!confirm('Delete current post ?')) return
+  deletePost(props.postId)
+  router.push(postsPath())
+}
 </script>
 
 <template>
@@ -38,10 +33,10 @@ const handleBackBtn = () => router.push(postsPath())
     <p>{{ post?.body }}</p>
   </div>
   <div class="post__actions actions">
-    <button @click="handleClick" class="btn btn-warning actions__item">
+    <button @click="handleEdit" class="btn btn-warning actions__item">
       Edit post
     </button>
-    <button @click="handleClick" class="btn btn-danger actions__item">
+    <button @click="handleDelete" class="btn btn-danger actions__item">
       Delete post
     </button>
   </div>
@@ -54,8 +49,5 @@ const handleBackBtn = () => router.push(postsPath())
   margin-top: 15px;
   display: flex;
   justify-content: space-between;
-  &__item{
-
-  }
 }
 </style>

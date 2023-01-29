@@ -3,47 +3,55 @@ import type {RouteRecordRaw} from 'vue-router'
 import PostList from '@/components/PostList.vue'
 import AuthorList from '@/components/AuthorList.vue'
 import PostItem from '@/components/PostItem.vue'
+import AuthorItem from '@/components/AuthorItem.vue'
 import MainView from '@/views/MainView.vue'
 
 import {
   ROUTE_POSTS,
   ROUTE_POST,
   ROUTE_AUTHORS,
+  ROUTE_AUTHOR,
 } from '@/constants'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     component: MainView,
+    redirect: () => ({name: ROUTE_POSTS}),
     children: [
       {
-        path: '/',
-        name: ROUTE_POSTS,
-        component: PostList,
+        path: '/posts',
+        children: [
+          {
+            path: '/posts',
+            name: ROUTE_POSTS,
+            component: PostList,
+          },
+          {
+            path: '/posts/:postId',
+            name: ROUTE_POST,
+            component: PostItem,
+            props: (route) => ({postId: Number(route.params.postId), flag: true}),
+          },
+        ]
       },
       {
-        path: '/posts/:postId',
-        name: ROUTE_POST,
-        component: PostItem,
-        props: (route) => ({postId: Number(route.params.postId), flag: true}),
-      }
+        path: '/authors',
+        children: [
+          {
+            path: '/authors',
+            name: ROUTE_AUTHORS,
+            component: AuthorList,
+          },
+          {
+            path: '/authors/:authorId',
+            name: ROUTE_AUTHOR,
+            component: AuthorItem,
+            props: (route) => ({authorId: Number(route.params.authorId), flag: true}),
+          },
+        ]
+      },
     ]
-  },
-  // {
-  //   path: '/posts/:postId',
-  //   name: 'post',
-  //   component: PostItem,
-  //   props: (route) => ({postId: Number(route.params.postId), flag: true}),
-  // },
-  {
-    path: '/authors',
-    name: ROUTE_AUTHORS,
-    component: AuthorList
-  },
-  {
-    path: '/new-post',
-    name: 'newPost',
-    component: PostList
   },
 ]
 

@@ -2,9 +2,10 @@ import {defineStore} from 'pinia'
 import type {IPost, IUser} from '@/api/typing'
 import type {Ref} from 'vue'
 import {ref} from 'vue'
-import {fetchPosts, fetchUsersByIds} from '@/api/JsonPlaceholder'
+import {fetchPosts, fetchUsers} from '@/api/JsonPlaceholder'
 
 export const usePostsStore = defineStore('posts', () => {
+  const initialized = ref(false)
   const posts: Ref<IPost[]> = ref([])
   const authors: Ref<IUser[]> = ref([])
 
@@ -13,9 +14,15 @@ export const usePostsStore = defineStore('posts', () => {
     return result
   }
 
+  const authorById = (id: number) => {
+    const result = authors.value.find((item) => item.id === id)
+    return result
+  }
+
   const init = async () => {
     await initPosts()
     await initAuthors()
+    initialized.value = true
   }
 
   const initPosts = async () => {
@@ -29,16 +36,16 @@ export const usePostsStore = defineStore('posts', () => {
 
   const initAuthors = async () => {
     if (authors.value.length) return
-    if (!posts.value.length) return
-    const ids = posts.value.map(item => item.userId)
-    authors.value = await fetchUsersByIds(ids)
+    authors.value = await fetchUsers()
   }
 
   return {
+    initialized,
     posts,
     authors,
     init,
     postById,
     deletePost,
+    authorById,
   }
 })

@@ -1,5 +1,5 @@
-import axios, {Axios} from "axios"
-import type {IPost, IUser, IComment, IAddPost, IAddPostResponse} from "@/api/typing"
+import axios, {Axios} from 'axios'
+import type {IPost, IUser, IComment} from '@/api/typing'
 
 class JsonPlaceholder {
   private readonly baseUrl = 'https://jsonplaceholder.typicode.com'
@@ -21,28 +21,14 @@ class JsonPlaceholder {
     return data || []
   }
 
-  async fetchUsersByIds(id: number[]) {
-    const params = {id}
-    const {data} = await this.request.get<IUser[]>(`/users`, {params})
+  async fetchUsers() {
+    const {data} = await this.request.get<IUser[]>('/users')
     return data || null
   }
 
-  async addPost(post: IAddPost) {
-    const {data} = await this.request.post<IAddPostResponse>('/posts', {data: post})
-    return {
-      ...data.data,
-      id: data.id,
-    }
-  }
-
-  async deletePost(id: number) {
-    const {data} = await this.request.delete<IPost>(`/posts/${id}`)
-    return data
-  }
 }
 
-export const fetchPosts = () => new JsonPlaceholder().fetchPosts()
-export const fetchComments = (postId: number) => new JsonPlaceholder().fetchComments(postId)
-export const fetchUsersByIds = (id: number[]) => new JsonPlaceholder().fetchUsersByIds(id)
-export const addPost = (post: IAddPost) => new JsonPlaceholder().addPost(post)
-export const deletePost = (id: number) => new JsonPlaceholder().deletePost(id)
+const instance = new JsonPlaceholder()
+export const fetchPosts = () => instance.fetchPosts()
+export const fetchComments = (postId: number) => instance.fetchComments(postId)
+export const fetchUsers = () => instance.fetchUsers()

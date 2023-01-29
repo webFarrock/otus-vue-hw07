@@ -3,7 +3,7 @@ import {computed, ref} from 'vue'
 import FilterComponent from '@/components/FilterComponent.vue'
 import {usePostsStore} from '@/store/posts'
 import {storeToRefs} from 'pinia'
-import {searchHighlight, queryFound} from '@/helpers'
+import {searchHighlight, queryFound, authorPath} from '@/helpers'
 
 const postsStore = usePostsStore()
 const {authors} = storeToRefs(postsStore)
@@ -31,7 +31,7 @@ const handleFilter = (v: string) => filter.value = v
         v-for="{id, name, selected} in displayAuthors" :key="id"
         :class="{selected}"
     >
-      <router-link :to="'/'" v-html="name"/>
+      <router-link :to="authorPath(id)" v-html="name"/>
     </li>
   </ul>
 </template>

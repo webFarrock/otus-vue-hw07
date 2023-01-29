@@ -1,31 +1,12 @@
 <script lang="ts" setup>
-import {onBeforeMount, ref, computed, watch} from 'vue'
-import {fetchPosts, fetchComments, fetchUsersByIds, addPost, deletePost} from '@/api/JsonPlaceholder'
-import type {Ref} from 'vue'
-import type {IPost, IUser, IComment} from '@/api/typing'
-import NavigationMain from '@/components/NavigationMain.vue'
+import {onBeforeMount} from 'vue'
+import {storeToRefs} from 'pinia'
 import {usePostsStore} from '@/store/posts'
-
-interface IFilterPayload {
-  postTitle: string;
-  userName: string;
-}
-
-interface IAddPostPayload {
-  title: string;
-  body: string;
-}
+import NavigationMain from '@/components/NavigationMain.vue'
+import Loader from '@/components/Loader.vue'
 
 const postsStore = usePostsStore()
-
-/*
-const handleAddPost = async (payload: IAddPostPayload) => {
-  // в api фейковое добавление, поэтому добавленный посто складываем в существующий массив
-  const result = await addPost({userId: 1, ...payload})
-  posts.value = [result, ...posts.value]
-}
-
- */
+const {initialized} = storeToRefs(postsStore)
 onBeforeMount(() => postsStore.init())
 
 </script>
@@ -40,7 +21,8 @@ onBeforeMount(() => postsStore.init())
     </header>
 
     <main>
-      <router-view></router-view>
+      <router-view v-if="initialized"></router-view>
+      <Loader v-else />
     </main>
 
     <footer class="py-3 my-4">
