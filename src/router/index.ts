@@ -11,7 +11,10 @@ import {
   ROUTE_POST,
   ROUTE_AUTHORS,
   ROUTE_AUTHOR,
+  ROUTE_POST_EDIT,
+  ROUTE_POST_ADD,
 } from '@/constants'
+import PostEdit from '@/components/PostEdit.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -26,6 +29,17 @@ const routes: Array<RouteRecordRaw> = [
             path: '/posts',
             name: ROUTE_POSTS,
             component: PostList,
+          },
+          {
+            path: '/posts/add',
+            name: ROUTE_POST_ADD,
+            component: PostEdit,
+          },
+          {
+            path: '/posts/:postId/edit',
+            name: ROUTE_POST_EDIT,
+            component: PostEdit,
+            props: (route) => ({postId: Number(route.params.postId), flag: true}),
           },
           {
             path: '/posts/:postId',
