@@ -1,11 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import type {RouteRecordRaw} from 'vue-router'
-import PostList from '@/components/PostList.vue'
-import AuthorList from '@/components/AuthorList.vue'
-import PostItem from '@/components/PostItem.vue'
-import AuthorItem from '@/components/AuthorItem.vue'
-import MainView from '@/views/MainView.vue'
-
 import {
   ROUTE_POSTS,
   ROUTE_POST,
@@ -14,7 +8,13 @@ import {
   ROUTE_POST_EDIT,
   ROUTE_POST_ADD,
 } from '@/constants'
-import PostEdit from '@/components/PostEdit.vue'
+
+const PostList = () => import(/* webpackChunkName: "" */ '@/components/PostList.vue')
+const AuthorList = () => import(/* webpackChunkName: "" */ '@/components/AuthorList.vue')
+const PostItem = () => import(/* webpackChunkName: "" */ '@/components/PostItem.vue')
+const AuthorItem = () => import(/* webpackChunkName: "" */ '@/components/AuthorItem.vue')
+const MainView = () => import(/* webpackChunkName: "" */ '@/views/MainView.vue')
+const PostEdit = () => import(/* webpackChunkName: "" */ '@/components/PostEdit.vue')
 
 const routes: Array<RouteRecordRaw> = [
   {
